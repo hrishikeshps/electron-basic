@@ -1,6 +1,16 @@
 const { app, BrowserWindow, ipcMain, nativeTheme, Menu, MenuItem, dialog } = require('electron')
 const path = require('path')
 
+const env = 'development';
+  
+// If development environment
+if (env === 'development') {
+    require('electron-reload')(__dirname, {
+        electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+        hardResetMethod: 'exit'
+    });
+}
+
 function createWindow() {
    const isMac = process.platform == 'darwin';
 
@@ -31,13 +41,24 @@ function createWindow() {
       Menu.getApplicationMenu().getMenuItemById('custom-1').label = 'Custom Label Updated';
       Menu.getApplicationMenu().getMenuItemById('custom-1').submenu = [
          {
-            label: 'New 1'
+            label: 'Increase Count 1',
+            click: function (item, focusedWindow) {
+               if (focusedWindow) {
+                  win.webContents.send('update-counter', 1)
+               }
+            }
          },
          {
-            label: 'New 2'
-         },
+            label: 'Decrease Count 1',
+            click: function (item, focusedWindow) {
+               if (focusedWindow) {
+                  win.webContents.send('update-counter', -1)
+               }
+            }
+         }
       ];
 
+      Menu.getApplicationMenu().getMenuItemById('custom-1').menu
       const updMenu = Menu.getApplicationMenu().items;
       const menu = Menu.buildFromTemplate(updMenu);
       Menu.setApplicationMenu(menu);

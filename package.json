@@ -9,7 +9,8 @@
   "author": "HS",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^23.1.0"
+    "electron": "^23.1.0",
+    "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
     "config": "^3.3.9",
